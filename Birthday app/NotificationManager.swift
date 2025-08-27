@@ -41,12 +41,11 @@ class NotificationManager {
         content.sound = .default
         content.badge = NSNumber(value: todayBirthdays.count)
         
-        /*var dateComponents = DateComponents()
+        var dateComponents = DateComponents()
         dateComponents.hour = 9  // Notify at 9:00 AM
+        dateComponents.minute = 0
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)*/
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
         let request = UNNotificationRequest(identifier: "birthdayReminder", content: content, trigger: trigger)
         
@@ -54,7 +53,41 @@ class NotificationManager {
             if let error = error {
                 print("Error scheduling notification: \(error)")
             } else {
-                print("Birthday notification scheduled successfully.")
+                print("Birthday notification scheduled successfully for daily at 9 AM.")
+            }
+        }
+    }
+    
+    /// Schedule recurring daily notification at 9 AM (only if not already scheduled)
+    func scheduleRecurringDailyNotification() {
+        let center = UNUserNotificationCenter.current()
+        
+        // Check if notification is already scheduled
+        center.getPendingNotificationRequests { requests in
+            let hasDailyNotification = requests.contains { $0.identifier == "dailyBirthdayCheck" }
+            
+            if !hasDailyNotification {
+                let content = UNMutableNotificationContent()
+                content.title = "Birthday Check 🎂"
+                content.body = "Check today's birthdays and send your wishes!"
+                content.sound = .default
+                
+                var dateComponents = DateComponents()
+                dateComponents.hour = 9
+                dateComponents.minute = 0
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                let request = UNNotificationRequest(identifier: "dailyBirthdayCheck", content: content, trigger: trigger)
+                
+                center.add(request) { error in
+                    if let error = error {
+                        print("Error scheduling daily notification: \(error)")
+                    } else {
+                        print("Daily birthday check notification scheduled successfully.")
+                    }
+                }
+            } else {
+                print("Daily birthday check notification already scheduled.")
             }
         }
     }

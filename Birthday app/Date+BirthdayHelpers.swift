@@ -10,7 +10,7 @@ import Foundation
 extension Date {
     var formattedBirthday: String {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateFormat = "MMMM d"  // Shows "January 15" instead of "January 15, 2000"
         return formatter.string(from: self)
     }
     

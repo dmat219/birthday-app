@@ -21,6 +21,14 @@
 		3C699E4F2E18DB0800EA57E3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C699E4E2E18DB0800EA57E3 /* NotificationManager.swift */; };
 		3C699E512E18E12800EA57E3 /* ContactImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C699E502E18E12800EA57E3 /* ContactImporter.swift */; };
 		3C699E532E18E14E00EA57E3 /* ContactImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C699E522E18E14E00EA57E3 /* ContactImportView.swift */; };
+		AFD9403B2E41DA74006EDE47 /* MessageComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9403A2E41DA65006EDE47 /* MessageComposeView.swift */; };
+
+		AFD9403D2E41DA76006EDE47 /* ECardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9403C2E41DA76006EDE47 /* ECardView.swift */; };
+
+		AFD9403F2E41DA78006EDE47 /* GiftOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9403E2E41DA78006EDE47 /* GiftOptionsView.swift */; };
+		AFD940402E41DA79006EDE47 /* MonetizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9403F2E41DA79006EDE47 /* MonetizationView.swift */; };
+		AFD940412E41DA80006EDE47 /* EnhancedBirthdayRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD940402E41DA80006EDE47 /* EnhancedBirthdayRowView.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +66,15 @@
 		3C699E4E2E18DB0800EA57E3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		3C699E502E18E12800EA57E3 /* ContactImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImporter.swift; sourceTree = "<group>"; };
 		3C699E522E18E14E00EA57E3 /* ContactImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportView.swift; sourceTree = "<group>"; };
+		AFD940382E41D582006EDE47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFD9403A2E41DA65006EDE47 /* MessageComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageComposeView.swift; sourceTree = "<group>"; };
+
+		AFD9403C2E41DA76006EDE47 /* ECardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECardView.swift; sourceTree = "<group>"; };
+
+		AFD9403E2E41DA78006EDE47 /* GiftOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftOptionsView.swift; sourceTree = "<group>"; };
+		AFD9403F2E41DA79006EDE47 /* MonetizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationView.swift; sourceTree = "<group>"; };
+		AFD940402E41DA80006EDE47 /* EnhancedBirthdayRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedBirthdayRowView.swift; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +105,7 @@
 		3C699E0E2E18A35600EA57E3 = {
 			isa = PBXGroup;
 			children = (
+				AFD940382E41D582006EDE47 /* Info.plist */,
 				3C699E192E18A35600EA57E3 /* Birthday app */,
 				3C699E2A2E18A35800EA57E3 /* Birthday appTests */,
 				3C699E342E18A35800EA57E3 /* Birthday appUITests */,
@@ -108,6 +126,7 @@
 		3C699E192E18A35600EA57E3 /* Birthday app */ = {
 			isa = PBXGroup;
 			children = (
+				AFD9403A2E41DA65006EDE47 /* MessageComposeView.swift */,
 				3C699E1A2E18A35600EA57E3 /* Birthday_appApp.swift */,
 				3C699E1C2E18A35600EA57E3 /* ContentView.swift */,
 				3C699E4E2E18DB0800EA57E3 /* NotificationManager.swift */,
@@ -117,6 +136,16 @@
 				3C699E462E18A73800EA57E3 /* AddBirthdayView.swift */,
 				3C699E502E18E12800EA57E3 /* ContactImporter.swift */,
 				3C699E522E18E14E00EA57E3 /* ContactImportView.swift */,
+
+				AFD9403C2E41DA76006EDE47 /* ECardView.swift */,
+
+				AFD9403E2E41DA78006EDE47 /* GiftOptionsView.swift */,
+				AFD9403F2E41DA79006EDE47 /* MonetizationView.swift */,
+				AFD940402E41DA80006EDE47 /* EnhancedBirthdayRowView.swift */,
+				AFD940412E41DA81006EDE47 /* GiftSelectionView.swift */,
+				AFD940422E41DA82006EDE47 /* GiftAmountView.swift */,
+				AFD940432E41DA83006EDE47 /* UnifiedCheckoutView.swift */,
+				AFD940442E41DA84006EDE47 /* GiftService.swift */,
 				3C699E1E2E18A35800EA57E3 /* Assets.xcassets */,
 				3C699E202E18A35800EA57E3 /* Preview Content */,
 			);
@@ -283,10 +312,21 @@
 				3C699E1D2E18A35600EA57E3 /* ContentView.swift in Sources */,
 				3C699E532E18E14E00EA57E3 /* ContactImportView.swift in Sources */,
 				3C699E492E18A88D00EA57E3 /* BirthdayEntry.swift in Sources */,
+				AFD9403B2E41DA74006EDE47 /* MessageComposeView.swift in Sources */,
 				3C699E4F2E18DB0800EA57E3 /* NotificationManager.swift in Sources */,
 				3C699E1B2E18A35600EA57E3 /* Birthday_appApp.swift in Sources */,
 				3C699E512E18E12800EA57E3 /* ContactImporter.swift in Sources */,
 				3C699E472E18A73800EA57E3 /* AddBirthdayView.swift in Sources */,
+				AFD9403C2E41DA75006EDE47 /* BirthdayRowView.swift in Sources */,
+				AFD9403D2E41DA76006EDE47 /* ECardView.swift in Sources */,
+				AFD9403E2E41DA77006EDE47 /* CloseFriendsView.swift in Sources */,
+				AFD9403F2E41DA78006EDE47 /* GiftOptionsView.swift in Sources */,
+				AFD940402E41DA79006EDE47 /* MonetizationView.swift in Sources */,
+				AFD940412E41DA80006EDE47 /* EnhancedBirthdayRowView.swift in Sources */,
+				AFD940422E41DA81006EDE47 /* GiftSelectionView.swift in Sources */,
+				AFD940432E41DA82006EDE47 /* GiftAmountView.swift in Sources */,
+				AFD940442E41DA83006EDE47 /* UnifiedCheckoutView.swift in Sources */,
+				AFD940452E41DA84006EDE47 /* GiftService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +488,7 @@
 				DEVELOPMENT_TEAM = X3GG9GZ4JL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -477,6 +518,7 @@
 				DEVELOPMENT_TEAM = X3GG9GZ4JL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -26,6 +26,10 @@ class BirthdayStore: ObservableObject {
     }
     
     // MARK: - Public Methods
+    func addBirthday(_ birthday: BirthdayEntry) {
+        birthdays.append(birthday)
+    }
+    
     var sectionedBirthdays: [BirthdaySection] {
         let todayBirthdays = birthdays.filter { $0.date.isTodayBirthday }
         let weekCutoff = 7
@@ -43,7 +47,7 @@ class BirthdayStore: ObservableObject {
             BirthdaySection(title: "Today", birthdays: todayBirthdays.sorted { $0.date.daysUntilNextBirthday < $1.date.daysUntilNextBirthday }),
             BirthdaySection(title: "This Week", birthdays: birthdaysThisWeek.sorted { $0.date.daysUntilNextBirthday < $1.date.daysUntilNextBirthday }),
             BirthdaySection(title: "This Month", birthdays: birthdaysThisMonth.sorted { $0.date.daysUntilNextBirthday < $1.date.daysUntilNextBirthday }),
-            BirthdaySection(title: "Future", birthdays: futureBirthdays.sorted { $0.date.daysUntilNextBirthday < $1.date.daysUntilNextBirthday })
+            BirthdaySection(title: "Upcoming", birthdays: futureBirthdays.sorted { $0.date.daysUntilNextBirthday < $1.date.daysUntilNextBirthday })
         ]
     }
     

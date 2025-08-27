@@ -4,135 +4,199 @@
 //
 //  Created by David Mathew on 7/4/25.
 //
-
 import SwiftUI
+import MessageUI
 
 struct ContentView: View {
-    @StateObject private var store = BirthdayStore()
-    @State private var showingAddBirthday = false
-    @State private var showingContactImporter = false
+    @EnvironmentObject var store: BirthdayStore
+    @State private var showAddBirthday = false
+    @State private var showContactImporter = false
     
+    // Consolidated state management for all actions
+    @State private var selectedBirthdayEntry: BirthdayEntry?
+    @State private var showMessageView = false
+    @State private var showECardView = false
+    @State private var showGiftOptions = false
+    
+    // Computed properties for sheet presentation
+    private var canShowMessage: Bool {
+        selectedBirthdayEntry?.phoneNumber != nil && !selectedBirthdayEntry!.phoneNumber!.isEmpty
+    }
+    
+    private var canShowECard: Bool {
+        selectedBirthdayEntry != nil
+    }
+    
+    private var canShowGifts: Bool {
+        selectedBirthdayEntry != nil
+    }
+
     var body: some View {
         NavigationView {
-            List {
-                ForEach(store.sectionedBirthdays) { section in
-                    Section(header: sectionHeader(for: section.title)) {
-                        ForEach(section.birthdays) { entry in
-                            birthdayRow(for: entry)
-                        }
-                        .onDelete { indexSet in
-                            store.deleteSorted(from: section, at: indexSet)
+            birthdayList
+                .navigationTitle("Birthday Reminders")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: { showContactImporter = true }) {
+                            Label("Import Contacts", systemImage: "person.2.fill")
                         }
                     }
-                }
-            }
-            .listStyle(PlainListStyle())
-            .scrollContentBackground(.hidden)
-            .background(Color(.systemBackground))
-            .navigationTitle("Birthdays")
-            .toolbar {
-                HStack {
-                    Button(action: { showingAddBirthday = true }) {
-                        Image(systemName: "plus")
-                    }
-                    Button(action: { showingContactImporter = true }) {
-                        Image(systemName: "person.crop.circle.badge.plus")
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: { showAddBirthday = true }) {
+                            Label("Add Birthday", systemImage: "plus")
+                        }
                     }
                 }
-            }
-            .sheet(isPresented: $showingAddBirthday) {
-                AddBirthdayView { newEntry in
-                    store.birthdays.append(newEntry)
+                .onChange(of: showMessageView) { newValue in
+                    if newValue {
+                        print("📱 ContentView: showMessageView changed to: true")
+                        print("📱 ContentView: selectedBirthdayEntry: \(selectedBirthdayEntry?.name ?? "nil")")
+                        print("📱 ContentView: canShowMessage: \(canShowMessage)")
+                    }
                 }
-            }
-            .sheet(isPresented: $showingContactImporter) {
-                ContactImportView { importedBirthdays in
-                    store.birthdays.append(contentsOf: importedBirthdays)
+                .onChange(of: showECardView) { newValue in
+                    if newValue {
+                        print("🎴 ContentView: showECardView changed to: true")
+                        print("🎴 ContentView: selectedBirthdayEntry: \(selectedBirthdayEntry?.name ?? "nil")")
+                        print("🎴 ContentView: canShowECard: \(canShowECard)")
+                    }
                 }
-            }
-            .onAppear {
-                UIApplication.shared.applicationIconBadgeNumber = 0
-                NotificationManager.shared.requestPermission()
-                NotificationManager.shared.scheduleDailyBirthdayReminder(birthdays: store.birthdays)
+                .onChange(of: showGiftOptions) { newValue in
+                    if newValue {
+                        print("🎁 ContentView: showGiftOptions changed to: true")
+                        print("🎁 ContentView: selectedBirthdayEntry: \(selectedBirthdayEntry?.name ?? "nil")")
+                        print("🎁 ContentView: canShowGifts: \(canShowGifts)")
+                    }
+                }
+                .sheet(isPresented: $showAddBirthday) {
+                    AddBirthdayView { newEntry in
+                        store.addBirthday(newEntry)
+                    }
+                }
+                .sheet(isPresented: $showContactImporter) {
+                    ContactImportView { importedEntries in
+                        for entry in importedEntries {
+                            store.addBirthday(entry)
+                        }
+                    }
+                }
+                .sheet(isPresented: $showMessageView) {
+                    if canShowMessage, let entry = selectedBirthdayEntry {
+                        MessageComposeView(recipients: [entry.phoneNumber!], body: "Happy Birthday! 🎉")
+                    } else {
+                        VStack(spacing: 16) {
+                            Image(systemName: "exclamationmark.triangle")
+                                .font(.system(size: 48))
+                                .foregroundColor(.orange)
+                            Text("No Phone Number Available")
+                                .font(.headline)
+                            Text("This contact doesn't have a phone number saved. Please add a phone number to send messages.")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                            Button("OK") {
+                                showMessageView = false
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                        .padding()
+                    }
+                }
+                .sheet(isPresented: $showECardView) {
+                    if canShowECard, let entry = selectedBirthdayEntry {
+                        ECardView(birthdayEntry: entry)
+                    } else {
+                        VStack(spacing: 16) {
+                            Image(systemName: "exclamationmark.triangle")
+                                .font(.system(size: 48))
+                                .foregroundColor(.orange)
+                            Text("No Birthday Entry Selected")
+                                .font(.headline)
+                            Text("Unable to load birthday information. Please try again.")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                            Button("OK") {
+                                showECardView = false
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                        .padding()
+                    }
+                }
+                .sheet(isPresented: $showGiftOptions) {
+                    if canShowGifts, let entry = selectedBirthdayEntry {
+                        GiftOptionsView(birthdayEntry: entry)
+                    } else {
+                        VStack(spacing: 16) {
+                            Image(systemName: "exclamationmark.triangle")
+                                .font(.system(size: 48))
+                                .foregroundColor(.orange)
+                            Text("No Birthday Entry Selected")
+                                .font(.headline)
+                            Text("Unable to load birthday information for gifts. Please try again.")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                            Button("OK") {
+                                showGiftOptions = false
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                        .padding()
+                    }
+                }
+        }
+    }
+    
+    private var birthdayList: some View {
+        List {
+            ForEach(store.sectionedBirthdays) { section in
+                Section(header: Text(headerTitle(for: section.title))) {
+                    ForEach(section.birthdays) { entry in
+                        EnhancedBirthdayRowView(
+                            entry: entry,
+                            store: store,
+                            onMessage: {
+                                print("📱 ContentView: onMessage called for: \(entry.name)")
+                                selectedBirthdayEntry = entry
+                                showMessageView = true
+                            },
+                            onECard: {
+                                print("🎴 ContentView: onECard called for: \(entry.name)")
+                                selectedBirthdayEntry = entry
+                                showECardView = true
+                            },
+                            onGifts: {
+                                print("🎁 ContentView: onGifts called for: \(entry.name)")
+                                selectedBirthdayEntry = entry
+                                showGiftOptions = true
+                            }
+                        )
+                    }
+                    .onDelete { offsets in
+                        store.deleteSorted(from: section, at: offsets)
+                    }
+                }
             }
         }
     }
     
-    // ✅ Section Header with Emojis
-    func sectionHeader(for title: String) -> some View {
-        let emoji: String
+    private func headerTitle(for title: String) -> String {
         switch title {
-        case "Today": emoji = "🎉"
-        case "This Week": emoji = "📅"
-        case "This Month": emoji = "🗓️"
-        case "Future": emoji = "🔮"
-        default: emoji = ""
-        }
-        
-        return HStack {
-            Text("\(emoji) \(title)")
-                .font(.headline)
-                .foregroundColor(title == "Today" ? .red : .primary)
-            Spacer()
-        }
-        .padding(.top, 12)
-        .padding(.bottom, 4)
-    }
-    
-    // ✅ Birthday Row with Quick Message Button (Today Only), Days Remaining, No Background Fill
-    func birthdayRow(for entry: BirthdayEntry) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(entry.name)
-                    .font(.system(.body, weight: .medium))
-                Spacer()
-                if entry.date.isTodayBirthday {
-                    Image(systemName: "gift.fill")
-                        .foregroundColor(.red)
-                }
-            }
-            
-            Text("Birthday: \(entry.date.formattedBirthday)")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-            
-            if !entry.date.isTodayBirthday {
-                Text("In \(entry.date.daysUntilNextBirthday) days")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            
-            if entry.date.isTodayBirthday, let phone = entry.phoneNumber, !phone.isEmpty {
-                Button(action: {
-                    sendMessage(to: phone)
-                }) {
-                    Label("Message", systemImage: "message.fill")
-                        .font(.subheadline)
-                }
-                .buttonStyle(BorderlessButtonStyle())
-            }
-        }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 4)
-    }
-    
-    // ✅ Quick Message Button Action
-    func sendMessage(to phoneNumber: String) {
-        let sms = "sms:\(phoneNumber)"
-        if let url = URL(string: sms) {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
-            }
+        case "Today":
+            return "🎉 Today's Birthdays"
+        case "This Week":
+            return "📅 This Week"
+        case "This Month":
+            return "📆 This Month"
+        case "Upcoming":
+            return "🔮 Upcoming"
+        default:
+            return title
         }
     }
 }
-
-
-
-/*
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-*/

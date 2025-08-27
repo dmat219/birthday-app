@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>Birthday app</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to your contacts to import birthdays.</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourname.birthday-app
+</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>ubereats</string>
+		<string>uber</string>
+		<string>doordash</string>
+		<string>dd</string>
+		<string>grubhub</string>
+		<string>grub</string>
+		<string>postmates</string>
+		<string>pm</string>
+		<string>instacart</string>
+		<string>ic</string>
+		<string>opentable</string>
+		<string>ot</string>
+		<string>amzn</string>
+		<string>amazon</string>
+		<string>amazon-shopping</string>
+		<string>amazon-shopping</string>
+		<string>amazon-prime</string>
+		<string>amazon-music</string>
+		<string>amazon-video</string>
+		<string>amazon-kindle</string>
+		<string>amazon-fresh</string>
+		<string>amazon-whole-foods</string>
+		<string>target</string>
+		<string>tg</string>
+		<string>walmart</string>
+		<string>wm</string>
+		<string>bestbuy</string>
+		<string>bb</string>
+		<string>starbucks</string>
+		<string>sb</string>
+		<string>1800flowers</string>
+		<string>flowers</string>
+		<string>spafinder</string>
+		<string>spa</string>
+		<string>ticketmaster</string>
+		<string>tm</string>
+		<string>airbnb</string>
+		<string>ab</string>
+		<string>groupon</string>
+		<string>gp</string>
+		<string>gift-cards</string>
+		<string>gifts</string>
+		<string>deals</string>
+		<string>promotions</string>
+		<string>birthday</string>
+		<string>celebration</string>
+		<string>roses</string>
+		<string>arrangements</string>
+		<string>experiences</string>
+		<string>categories</string>
+	</array>
+</dict>
+</plist>
