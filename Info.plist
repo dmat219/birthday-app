@@ -3,14 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>Birthday app</string>
+	<string>GiftSmart</string>
 	<key>NSContactsUsageDescription</key>
-	<string>This app needs access to your contacts to import birthdays.</string>
+	<string>GiftSmart needs access to your contacts to import birthdays and reminders.</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourname.birthday-app
-</string>
+	<string>com.yourcompany.giftsmart</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>LSApplicationQueriesSchemes</key>
